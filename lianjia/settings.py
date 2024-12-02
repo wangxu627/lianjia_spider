@@ -15,9 +15,12 @@ NEWSPIDER_MODULE = "lianjia.spiders"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "lianjia (+http://www.yourdomain.com)"
+USER_AGENT = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0']
+
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
+
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 CONCURRENT_REQUESTS = 32
@@ -62,13 +65,14 @@ CONCURRENT_REQUESTS = 32
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "lianjia.pipelines.LianjiaPipeline": 300,
-#}
+ITEM_PIPELINES = {
+#    "lianjia.pipelines.LianjiaJsonLinePipeline": 300,
+   "lianjia.pipelines.LianjiaMongoDBPipeline": 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
-#AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_ENABLED = True
 # The initial download delay
 #AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
@@ -94,3 +98,8 @@ FEED_EXPORT_ENCODING = "utf-8"
 
 FEED_FORMAT = 'json'  # 选择要保存的数据格式，如JSON
 FEED_URI = 'output.json'  # 指定保存的文件名和路径
+
+
+MONGO_URI = 'mongodb://admin:Wx**8962789620@router.wxioi.fun:27018'
+MONGO_DATABASE = 'second_hand_house'
+MONGO_COLLECTION = 'blocks'
