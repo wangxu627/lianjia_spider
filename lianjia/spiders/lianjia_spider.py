@@ -1,13 +1,20 @@
-import scrapy
 import re
+import scrapy
+from scrapy import signals
+from scrapy.signalmanager import dispatcher
 from urls import communities
 from lianjia.items import LianjiaItem
 from lianjia.utils import extract_floor_info, clean_number_with_chinese, get_address_detail
-
+from second_hand_house_remove_dup_doc import post_mongodb_handler
 
 class LianjiaSpiderSpider(scrapy.Spider):
     name = "lianjia"
     allowed_domains = ["cd.lianjia.com"]
+
+    def __init__(self, *args, **kwargs):
+        super(LianjiaSpiderSpider, self).__init__(*args, **kwargs)
+        # 连接信号
+        dispatcher.connect(self.spider_closed, signal=signals.spider_closed)
 
     # start_urls = community["community_id"] for community in communities
     # start_urls = [f"https://cd.lianjia.com/ershoufang/pg1{cid}/" for community in communities for cid in community["community_id"]]
@@ -94,3 +101,9 @@ class LianjiaSpiderSpider(scrapy.Spider):
                 page_number = int(match.group(1)) + 1
                 new_url = re.sub(r'/pg\d+', f'/pg{page_number}', response.url)
                 yield response.follow(new_url, callback=self.parse, meta=response.meta)
+
+    def spider_closed(self, spider, reason):
+        # 处理爬虫结束时的任务
+        print(f"爬虫 {spider.name} 已结束，原因：{reason}")
+        # 在这里执行你需要的额外操作，例如日志记录、文件保存、数据库更新等
+        post_mongodb_handler()
