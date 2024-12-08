@@ -32,7 +32,7 @@ def parse_time_info(time_str):
 def clean_number_with_chinese(text):
     text = re.sub(r'(\d[\d,]*\.?\d*)', lambda x: x.group(0).replace(',', ''), text)
     cleaned_text = re.sub(r'(\d[\d,]*\.?\d*)([^\d\s]+)', r'\1', text)
-    return float(cleaned_text)
+    return float(cleaned_text or 0)
 
 
 def extract_floor_info(floor_string):

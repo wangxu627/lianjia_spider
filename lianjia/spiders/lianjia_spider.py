@@ -24,7 +24,7 @@ class LianjiaSpiderSpider(scrapy.Spider):
         # start_urls = [f"https://cd.lianjia.com/ershoufang/pg1{cid}/" for community in communities for cid in community["community_id"]]
         for community in communities:
             for cid in community["id"]:
-                url = f"https://cd.lianjia.com/ershoufang/pg1{cid}/"
+                url = f"https://cd.lianjia.com/ershoufang/pg1c{cid}/"
                 meta_info = {
                     'community_name': community['name'],
                 }
