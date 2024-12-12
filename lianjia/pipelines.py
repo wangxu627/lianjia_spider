@@ -30,7 +30,7 @@ class LianjiaMongoDBPipeline:
         )
 
     def open_spider(self, spider):
-        self.client = pymongo.MongoClient(self.mongo_uri)
+        self.client = pymongo.MongoClient(self.mongo_uri, maxPoolSize=1000)
         self.db = self.client[self.mongo_db]
         self.collection = self.db[self.mongo_collection]
 
@@ -41,10 +41,6 @@ class LianjiaMongoDBPipeline:
     def process_item(self, item, spider):
         doc = {
             **dict(item),
-            # 'area': clean_number_with_chinese(item["area"]),
-            # 'unit_price': clean_number_with_chinese(item["unit_price"]),
-            # 'total_price': clean_number_with_chinese(item["total_price"]),
-            # 'star_count': clean_number_with_chinese(item["star_count"]),
             "created_at": datetime.now()
         }
         self.collection.insert_one(doc)

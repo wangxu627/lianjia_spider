@@ -73,3 +73,6 @@ def post_mongodb_handler():
     })
     print(f"Deleted {result.deleted_count} documents.")
 
+
+if __name__ == '__main__':
+    post_mongodb_handler()

@@ -6,7 +6,7 @@ echo $script_dir
 pushd "$script_dir" || exit 1
 
 rm -f nohup.out
-current_date=$(date +"%Y-%m-%d")
+current_date=$(date +"%Y-%m-%d_%H")
 output_filename="data_${current_date}.jsonl"
 
 cd "$(dirname "$0")"
